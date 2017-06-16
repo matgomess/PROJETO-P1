@@ -237,8 +237,12 @@ def listar(texto):
   
   prio = ["A", "B", "C", "D", "a","b", "c", "d"]
   cores = [RED, BLUE, CYAN, GREEN, YELLOW]
-  agenda = open("todo.txt", "r")
-  texto = agenda.readlines()
+  try:
+    agenda = open("todo.txt", "r")
+    texto = agenda.readlines()
+  except:
+    agenda = open("todo.txt", "a+")
+    texto = agenda.readlines()
   agenda.close()
   itens = organizar2(texto)
   itens = ordenarPorDataHora(itens)
