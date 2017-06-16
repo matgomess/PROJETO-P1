@@ -291,6 +291,17 @@ def ordenarPorDataHora(lista):
   i = 0
   try:
     while i < len(lista)-1:
+      while lista[i][0][1] == '' and lista[i+1][0][1] != '':
+        lista[i], lista[i+1] = lista[i+1], lista[i]
+        i = 0
+      i += 1
+      if lista[i][0][0] == '' and lista[i+1][0][0] == '':
+        i += 1
+  except:
+      i += 1          
+  i = 0
+  try:
+    while i < len(lista)-1:
       while lista[i][0][0] == '' and lista[i+1][0][0] != '':
         lista[i], lista[i+1] = lista[i+1], lista[i]
         i = 0
