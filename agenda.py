@@ -219,10 +219,10 @@ def listar(texto):
   prio = ["A", "B", "C", "D", "a","b", "c", "d"]
   cores = [RED, BLUE, CYAN, GREEN, YELLOW]
   try:
-    agenda = open("todo.txt", "r")
+    agenda = open(TODO_FILE, "r")
     texto = agenda.readlines()
   except:
-    agenda = open("todo.txt", "a+")
+    agenda = open(TODO_FILE, "a+")
     texto = agenda.readlines()
   agenda.close()
   itens = organizar2(texto)
@@ -370,9 +370,6 @@ def fazer(chave):
     dic[i] = x
     i += 1
   txt2 = open(ARCHIVE_FILE, "w")
-  #txt2.write(dic[ch][0][0]+" "+dic[ch][0][1]+" "+dic[ch][0][2]+" "+dic[ch][1]+dic[ch][2][0]+dic[ch][2][1]+"\n")
-  #txt2.close()
-  #del dic[ch]  
   txt = open(TODO_FILE, "w")
   fazer = dic[chaves]
   del dic[chaves]
