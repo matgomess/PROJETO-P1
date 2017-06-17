@@ -2,7 +2,6 @@ import sys
 import random
 TODO_FILE = 'todo.txt'
 ARCHIVE_FILE = 'done.txt'
-
 RED   = "\033[1;31m"  
 BLUE  = "\033[1;34m"
 CYAN  = "\033[1;36m"
@@ -11,21 +10,17 @@ RESET = "\033[0;0m"
 BOLD    = "\033[;1m"
 REVERSE = "\033[;7m"
 YELLOW = "\033[0;33m"
-
 ADICIONAR = 'a'
 REMOVER = 'r'
 FAZER = 'f'
 PRIORIZAR = 'p'
 LISTAR = 'l'
-
-def limparTela():
-  print("\n"*50)
-  return
 def printCores(texto, cor) :
   print(cor + texto + RESET)
 def adicionar(descricao, extras):
   # não é possível adicionar uma atividade que não possui descrição. 
   if descricao  == '' :
+    print("Informe uma descrição para o seu projeto")
     return False
   data = ''
   hora = ''
@@ -44,7 +39,6 @@ def adicionar(descricao, extras):
     elif projetoValido(i):
       proj = i
   novaAtividade = data+" "+hora+" "+pri+" "+descricao+" "+cont+" "+proj 
-      
   # Escreve no TODO_FILE. 
   try: 
     fp = open(TODO_FILE, 'a')
@@ -54,10 +48,7 @@ def adicionar(descricao, extras):
     print("Não foi possível escrever para o arquivo " + TODO_FILE)
     print(err)
     return False
-
   return True
-
-
 # Valida a prioridade.
 def prioridadeValida(prioridade):
   pris = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
@@ -75,7 +66,6 @@ def horaValida2(horaMin) :
     if minut < '00' or minut > '59':
         return False
     return True
-  
 def horaValida(horaMin) :
   if len(horaMin) != 4 or not soDigitos(horaMin):
     return False
@@ -87,7 +77,6 @@ def horaValida(horaMin) :
     if minut < '00' or minut > '59':
         return False
     return True
- 
 def dataValida(data) :
   mes = {}
   mes['01'] = ['31']
@@ -115,7 +104,6 @@ def dataValida(data) :
     elif ano < "0001":
       return False
   return True
-
 def dataValida2(data) :
   mes = {}
   mes['01'] = ['31']
@@ -143,13 +131,11 @@ def dataValida2(data) :
     elif ano < "0001":
       return False
   return True
-      
 # Valida que o string do projeto está no formato correto. 
 def projetoValido(proj):
   if len(proj) >= 2 and proj[0] == "+":
     return True
   return False
-
 # Valida que o string do contexto está no formato correto. 
 def contextoValido(cont):
   if len(cont) >= 2 and cont[0] == "@":
@@ -191,8 +177,6 @@ def organizar(linhas):
            desc += l+" "
     itens.append((desc,(data, hora, prioridade, contexto, projeto)))
   return itens
-
-
 def organizar2(linhas):
   # Linhas será uma lista do texto em .readlines()
   itens = []
@@ -229,12 +213,9 @@ def organizar2(linhas):
             desc += l+" "
       else:
         desc += l+" "
-  
     itens.append(((data, hora, prioridade), desc, (contexto, projeto)))   
   return itens
-
-def listar(texto):
-  
+def listar(texto): 
   prio = ["A", "B", "C", "D", "a","b", "c", "d"]
   cores = [RED, BLUE, CYAN, GREEN, YELLOW]
   try:
@@ -247,7 +228,8 @@ def listar(texto):
   itens = organizar2(texto)
   itens = ordenarPorDataHora(itens)
   itens = ordenarPorPrioridade(itens)
-  cores = [RED, BLUE, CYAN, GREEN, YELLOW, REVERSE]
+  cores = [BLUE, CYAN, GREEN, YELLOW, REVERSE]
+  cores1 = [BLUE, CYAN]
   cor = random.choice(cores)
   i = 1
   for x in itens:
@@ -256,20 +238,56 @@ def listar(texto):
       tuples = " ".join(x[0])+" "
       tuplesf = x[1]+" "+" ".join(x[2])
       mostrar = stringnum+" "+tuples+tuplesf
-      printCores(mostrar, BOLD)
+      printCores(mostrar, RED+BOLD)
       i += 1
-    elif prioridadeValida(x[0][2]) and x[0][2][1] in prio:
-      stringnum = str(i)
-      tuples = " ".join(x[0])+" "
-      tuplesf = x[1]+" "+" ".join(x[2])
-      mostrar = stringnum+" "+tuples+tuplesf
-      printCores(mostrar, cor)
-      i += 1
+    elif prioridadeValida(x[0][2]) and (x[0][2] == "(b)" or x[0][2] == "(B)"):
+        stringnum = str(i)
+        tuples = " ".join(x[0])+" "
+        tuplesf = x[1]+" "+" ".join(x[2])
+        mostrar = stringnum+" "+tuples+tuplesf
+        printCores(mostrar, BLUE)
+        i += 1
+    elif prioridadeValida(x[0][2]) and (x[0][2] == "(c)" or x[0][2] == "(C)"):
+        stringnum = str(i)
+        tuples = " ".join(x[0])+" "
+        tuplesf = x[1]+" "+" ".join(x[2])
+        mostrar = stringnum+" "+tuples+tuplesf
+        printCores(mostrar, YELLOW)
+        i += 1
+    elif prioridadeValida(x[0][2]) and (x[0][2] == "(d)" or x[0][2] == "(D)"):
+        stringnum = str(i)
+        tuples = " ".join(x[0])+" "
+        tuplesf = x[1]+" "+" ".join(x[2])
+        mostrar = stringnum+" "+tuples+tuplesf
+        printCores(mostrar, GREEN)
+        i += 1  
     else:
       print(i," ".join(x[0])," ",x[1]," ".join(x[2]))
       i += 1 
   return itens
 def ordenarPorDataHora(lista):
+  i = 0
+  try:
+    while i < len(lista)-1:
+      while lista[i][0][1] == '' and lista[i+1][0][1] != '':
+        lista[i], lista[i+1] = lista[i+1], lista[i]
+        i = 0
+      i += 1
+      if lista[i][0][1] == '' and lista[i+1][0][1] == '':
+        i += 1
+  except:
+      ''        
+  i = 0
+  try:
+    while i < len(lista)-1:
+      while lista[i][0][0] == '' and lista[i+1][0][0] != '':
+        lista[i], lista[i+1] = lista[i+1], lista[i]
+        i = 0
+      i += 1
+      if lista[i][0][0] == '' and lista[i+1][0][0] == '':
+        i += 1
+  except:
+     ''
   x = 0
   while x < len(lista) - 1:
     try:
@@ -288,50 +306,56 @@ def ordenarPorDataHora(lista):
        x += 1
      except:
        x = 100000000000000000000
-  i = 0
-  try:
-    while i < len(lista)-1:
-      while lista[i][0][1] == '' and lista[i+1][0][1] != '':
-        lista[i], lista[i+1] = lista[i+1], lista[i]
-        i = 0
-      i += 1
-      if lista[i][0][0] == '' and lista[i+1][0][0] == '':
-        i += 1
-  except:
-      i += 1          
-  i = 0
-  try:
-    while i < len(lista)-1:
-      while lista[i][0][0] == '' and lista[i+1][0][0] != '':
-        lista[i], lista[i+1] = lista[i+1], lista[i]
-        i = 0
-      i += 1
-      if lista[i][0][0] == '' and lista[i+1][0][0] == '':
-        i += 1
-  except:
-      i += 1     
   return lista
-   
 def ordenarPorPrioridade(lista):
-  def ordi(t):
-    return(t[0][2][1])
+  dic = {}
+  dic["A"] = 26
+  dic["B"] = 25
+  dic["C"] = 24
+  dic["D"] = 23
+  dic["E"] = 22
+  dic["F"] = 21
+  dic["G"] = 20
+  dic["H"] = 19
+  dic["I"] = 18
+  dic["J"] = 17
+  dic["K"] = 16
+  dic["L"] = 15
+  dic["M"] = 14
+  dic["N"] = 13
+  dic["O"] = 12
+  dic["P"] = 11
+  dic["Q"] = 10
+  dic["R"] = 9
+  dic["S"] = 8
+  dic["T"] = 7
+  dic["U"] = 6
+  dic["V"] = 5
+  dic["X"] = 4
+  dic["W"] = 3
+  dic["Y"] = 2
+  dic["D"] = 1
+  i = 0
   try:
-    lista = sorted(lista, key=ordi)
-  except:
-    i = 0
-    try:
-      while i < len(lista)-1:
-          while lista[i][0][2] == '' and lista[i+1][0][2] != '':
-            lista[i], lista[i+1] = lista[i+1], lista[i]
-            i = 0
-          i += 1
+    while i < len(lista)-1:
+      while lista[i][0][2] == '' and lista[i+1][0][2] != '':
+        lista[i], lista[i+1] = lista[i+1], lista[i]
+        i = 0
+      i += 1
       if lista[i][0][2] == '' and lista[i+1][0][2] == '':
         i += 1
-    except:
+  except:
+    ""    
+  i = 0
+  while i < len(lista)-1:
+    try:
+      while dic[lista[i][0][2][1].upper()] < dic[lista[i+1][0][2][1].upper()]:
+        lista[i], lista[i+1] = lista[i+1], lista[i]
+        i = 0
       i += 1
+    except:
+      i = 10000000000000000000
   return lista
-
-
 def fazer(chave):
   chaves = int(chave)
   dic = {}
@@ -383,7 +407,6 @@ def fazer(chave):
         desc += y+" "
     if desc != '':
       txt.write(data+" "+hora+" "+prioridade+" "+desc+" "+cont+" "+proj+"\n")
-
   linha = fazer[0][0]+" "+fazer[0][1]+" "+fazer[0][2]+" "+fazer[1]+fazer[2][0]+" "+fazer[2][1]
   lista = linha.split()
   data = ''
@@ -417,9 +440,7 @@ def fazer(chave):
   txt.close()
   txt2.close()
   listar(TODO_FILE)
-
   return 
-
 def remover(chave):
   chaves = int(chave)
   dic = {}
@@ -459,7 +480,6 @@ def remover(chave):
         desc += y+" "
     if desc != '':
       txt.write(data+" "+hora+" "+prioridade+" "+desc+" "+cont+" "+proj+"\n")
-  listar(TODO_FILE)
   return
 def priorizar(num, pricomando):
 
