@@ -334,7 +334,7 @@ def ordenarPorPrioridade(lista):
   dic["X"] = 4
   dic["W"] = 3
   dic["Y"] = 2
-  dic["D"] = 1
+  dic["Z"] = 1
   i = 0
   try:
     while i < len(lista)-1:
