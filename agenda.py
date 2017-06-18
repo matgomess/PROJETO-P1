@@ -374,8 +374,8 @@ def fazer(chave):
   fazer = dic[chaves]
   del dic[chaves]
   for x in dic:
-    a = dic[x][0][0]+" "+dic[x][0][1]+" "+dic[x][0][2]+" "+dic[x][1]+dic[x][2][0]+" "+dic[x][2][1]
-    b = a.split()
+    linha2 = dic[x][0][0]+" "+dic[x][0][1]+" "+dic[x][0][2]+" "+dic[x][1]+dic[x][2][0]+" "+dic[x][2][1]
+    lista2 = linha2.split()
     data = ''
     hora = ''
     prioridade = ''
@@ -383,7 +383,7 @@ def fazer(chave):
     proj = ''
     desc = ''
     desc2 = ''
-    for y in b:
+    for y in lista:
       if dataValida2(y) and data == '':
         data = y[0]+y[1]+y[3]+y[4]+y[6]+y[7]+y[8]+y[9]
       elif horaValida2(y) and hora == '':
