@@ -369,7 +369,7 @@ def fazer(chave):
   for x in itens:
     dic[i] = x
     i += 1
-  txt2 = open(ARCHIVE_FILE, "w")
+  txt2 = open(ARCHIVE_FILE, "a+")
   txt = open(TODO_FILE, "w")
   fazer = dic[chaves]
   del dic[chaves]
