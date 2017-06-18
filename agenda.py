@@ -369,7 +369,7 @@ def fazer(chave):
   for x in itens:
     dic[i] = x
     i += 1
-  txt2 = open(ARCHIVE_FILE, "a+")
+  txt2 = open(ARCHIVE_FILE, "a")
   txt = open(TODO_FILE, "w")
   fazer = dic[chaves]
   del dic[chaves]
@@ -495,7 +495,7 @@ def priorizar(num, pricomando):
   txt = open(TODO_FILE, "w")
   
   for x in dic:
-    if x == chaves:
+    if x == chaves and prioridadeValida("("+pricomando+")"):
       linha = dic[x][0][0]+" "+dic[x][0][1]+" "+dic[x][0][2]+" "+dic[x][1]+" "+dic[x][2][0]+" "+dic[x][2][1]
       lista = linha.split()
       data = ''
