@@ -383,7 +383,7 @@ def fazer(chave):
     proj = ''
     desc = ''
     desc2 = ''
-    for y in lista:
+    for y in lista2:
       if dataValida2(y) and data == '':
         data = y[0]+y[1]+y[3]+y[4]+y[6]+y[7]+y[8]+y[9]
       elif horaValida2(y) and hora == '':
