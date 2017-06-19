@@ -371,8 +371,8 @@ def fazer(chave):
     i += 1
   txt2 = open(ARCHIVE_FILE, "a")
   txt = open(TODO_FILE, "w")
-  fazer = dic[chaves]
   try:
+    fazer = dic[chaves]
     del dic[chaves]
   except:
     print("chave inexistente")
@@ -455,7 +455,11 @@ def remover(chave):
   for x in itens:
     dic[index] = x
     index += 1
-  del dic[chaves]  
+  try:
+    del dic[chaves]
+  except:
+    print("chave inexistente")
+    pass  
   txt = open(TODO_FILE, "w")
   for x in dic:
     linha = dic[x][0][0]+" "+dic[x][0][1]+" "+dic[x][0][2]+" "+dic[x][1]+dic[x][2][0]+" "+dic[x][2][1]
