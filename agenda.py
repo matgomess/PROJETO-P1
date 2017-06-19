@@ -372,7 +372,11 @@ def fazer(chave):
   txt2 = open(ARCHIVE_FILE, "a")
   txt = open(TODO_FILE, "w")
   fazer = dic[chaves]
-  del dic[chaves]
+  try:
+    del dic[chaves]
+  except:
+    print("chave inexistente")
+    pass
   for x in dic:
     linha2 = dic[x][0][0]+" "+dic[x][0][1]+" "+dic[x][0][2]+" "+dic[x][1]+dic[x][2][0]+" "+dic[x][2][1]
     lista2 = linha2.split()
